@@ -3,9 +3,11 @@ package endpoints
 import (
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/httpResponse"
+	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/stringHelper"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/db"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/scheduler"
@@ -39,6 +41,21 @@ func Config(w http.ResponseWriter, r *http.Request) {
 
 	httpResponse.SuccessWithPayload(w, "OK", agent)
 
-	//Also ensure that we have a scheduler running to collect results
+	//Only check lock lease if it is currently scheduled on another host than us
+	//If it is scheduled on the current node, just pass it to the scheduler function as we know all our current workloads
+	if agent.Scraper.UUID != db.InstanceConfig.InstanceID {
+		//Check if the agent is currenty scheduled on a working node
+		if time.Since(agent.Scraper.Lock) > time.Minute*3 {
+			logger.Warning("Housekeeper", "A scraper seems to be overloaded or has failed as it hasn't scraped", agent.AgentID, "in 3 minutes -> Rescheduling")
+			agent.Scraper.UUID = db.InstanceConfig.InstanceID
+			agent.Scraper.Lock = time.Now()
+			db.UpdateLock(agent)
+		} else {
+			//If lock is valid, don't start a new thread
+			logger.Debug("Scheduler", "Ignored request to start scheduler for agent", agent.AgentID, "as its lock is valid")
+			return
+		}
+	}
+
 	go scheduler.StartScheduler(agent)
 }

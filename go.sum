@@ -97,6 +97,8 @@ gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210904061307-e60e8e926b3
 gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210904061307-e60e8e926b3e/go.mod h1:af2grm5Xa2IaHMjG8mOE1/q3i9VGRechFcg8eC4sANM=
 gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210904081545-1e1ede4eace6 h1:h533NwFI3t5eQ5b/Wzi8hxZCcq4ph9icw8AXx7z7HGU=
 gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210904081545-1e1ede4eace6/go.mod h1:af2grm5Xa2IaHMjG8mOE1/q3i9VGRechFcg8eC4sANM=
+gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210904144048-1c11795061b5 h1:DpyDrje+c8xZZUNvJFqGBSMFIaZEmF2OD+L7Klucw/Y=
+gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210904144048-1c11795061b5/go.mod h1:af2grm5Xa2IaHMjG8mOE1/q3i9VGRechFcg8eC4sANM=
 go.mongodb.org/mongo-driver v1.7.1 h1:jwqTeEM3x6L9xDXrCxN0Hbg7vdGfPBOTIkr0+/LYZDA=
 go.mongodb.org/mongo-driver v1.7.1/go.mod h1:Q4oFMbo1+MSNqICAdYMlC/zSTrwCogR4R8NzkI+yfU8=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=

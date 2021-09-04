@@ -90,12 +90,11 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	//Register the new agent
 	newAgent := models.Agent{
-		AgentID:   agentUUID,
-		OS:        agentOS,
-		ScraperID: db.InstanceConfig.InstanceID,
-		Enabled:   true,
-		LastSeen:  time.Now(),
-		Endpoint:  agentURL,
+		AgentID:  agentUUID,
+		OS:       agentOS,
+		Enabled:  true,
+		LastSeen: time.Now(),
+		Endpoint: agentURL,
 	}
 
 	if err := db.AddAgent(&newAgent); err != nil {

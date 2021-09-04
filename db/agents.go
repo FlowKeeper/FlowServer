@@ -26,6 +26,23 @@ func AddAgent(Agent *models.Agent) error {
 	return nil
 }
 
+func UpdateLock(Agent models.Agent) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	_, err := dbclient.Collection("agents").UpdateByID(ctx, Agent.ID, bson.M{
+		"$set": bson.M{
+			"scraper": Agent.Scraper,
+		},
+	})
+
+	if err != nil {
+		logger.Error(loggingArea, "Couldn't update agent:", err)
+		return err
+	}
+
+	return nil
+}
+
 func FindAgent(AgentID uuid.UUID) (models.Agent, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
