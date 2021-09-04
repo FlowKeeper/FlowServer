@@ -1,4 +1,4 @@
-FROM alpine:3
+FROM alpine:3.13
 
 RUN mkdir /app
 RUN apk add --no-cache git make musl-dev go=1.16.7-r0
