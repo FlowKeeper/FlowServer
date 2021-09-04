@@ -8,14 +8,20 @@ import (
 	"github.com/gorilla/mux"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/config"
+	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/webserver/endpoints"
 )
+
+const loggingArea = "WEB"
 
 //Init starts the http server
 func Init() {
 	listenString := fmt.Sprintf("%s:%d", config.Config.WebListen, config.Config.WebPort)
-	logger.Info("WEB", "Listening on", listenString)
+	logger.Info(loggingArea, "Listening on", listenString)
 	router := mux.NewRouter()
 	router.Use(loggingMiddleware)
+
+	router.HandleFunc("/api/v1/register", endpoints.Register).Methods("POST")
+	router.HandleFunc("/api/v1/config", endpoints.Config).Methods("GET")
 
 	srv := &http.Server{
 		Handler:      router,
@@ -24,7 +30,9 @@ func Init() {
 		ReadTimeout:  15 * time.Second,
 	}
 
-	srv.ListenAndServe()
+	if err := srv.ListenAndServe(); err != nil {
+		logger.Fatal(loggingArea, "Couldn't open websocket:", err)
+	}
 }
 
 func loggingMiddleware(next http.Handler) http.Handler {
