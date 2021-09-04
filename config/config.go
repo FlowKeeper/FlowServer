@@ -9,6 +9,7 @@ import (
 )
 
 type SampleConfig struct {
+	Debug     bool
 	Hostname  string
 	WebListen string
 	WebPort   int
@@ -42,5 +43,14 @@ func ReadConfig() {
 	if stringHelper.IsEmpty(Config.MongoDB) {
 		logger.Info("CONFIG", "Using default mongodb address: mongodb://localhost:27017")
 		Config.MongoDB = "mongodb://localhost:27017"
+	}
+
+	if Config.Debug, err = strconv.ParseBool(os.Getenv("FLOW_DEBUG")); err != nil {
+		Config.Debug = false
+	}
+
+	if Config.Debug {
+		logger.EnableDebugLog()
+		logger.Debug("CONFIG", "Enabled debug logging")
 	}
 }
