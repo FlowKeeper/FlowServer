@@ -95,7 +95,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		ScraperID: db.InstanceConfig.InstanceID,
 		Enabled:   true,
 		LastSeen:  time.Now(),
-		Endpoint:  *agentURL,
+		Endpoint:  agentURL,
 	}
 
 	if err := db.AddAgent(&newAgent); err != nil {

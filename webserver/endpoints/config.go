@@ -8,6 +8,7 @@ import (
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/httpResponse"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/stringHelper"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/db"
+	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/scheduler"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -37,4 +38,7 @@ func Config(w http.ResponseWriter, r *http.Request) {
 	}
 
 	httpResponse.SuccessWithPayload(w, "OK", agent)
+
+	//Also ensure that we have a scheduler running to collect results
+	go scheduler.StartScheduler(agent)
 }

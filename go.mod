@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
-	gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210831090339-d5798e5f5358
+	gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210904070203-2654d8b0c701
 	go.mongodb.org/mongo-driver v1.7.1
 )
 
@@ -18,7 +18,7 @@ require (
 	github.com/xdg-go/scram v1.0.2 // indirect
 	github.com/xdg-go/stringprep v1.0.2 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d // indirect
-	gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210902160240-cc4d1a54d84a // indirect
+	gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210904081545-1e1ede4eace6 // indirect
 	golang.org/x/crypto v0.0.0-20200302210943-78000ba7a073 // indirect
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e // indirect
 	golang.org/x/text v0.3.5 // indirect
