@@ -1,7 +1,6 @@
-FROM golang:1.17-alpine
+FROM golang:1.17-bullseye
 
 COPY . /src
-RUN apk add gcc musl-dev
 RUN cd /src && go build -o /src/server .
 
 FROM alpine:latest
