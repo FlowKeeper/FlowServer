@@ -78,10 +78,7 @@ func getAgentByField(Field string, Value interface{}) (models.Agent, error) {
 		agent.ItemsResolved = make([]models.Item, 0)
 	}
 	if agent.Triggers == nil {
-		agent.Triggers = make([]primitive.ObjectID, 0)
-	}
-	if agent.TriggersResolved == nil {
-		agent.TriggersResolved = make([]models.Trigger, 0)
+		agent.Triggers = make([]models.TriggerAssignment, 0)
 	}
 
 	if len(agent.Items) > 0 {
@@ -92,10 +89,11 @@ func getAgentByField(Field string, Value interface{}) (models.Agent, error) {
 		}
 	}
 
-	if len(agent.Triggers) > 0 {
+	for i, k := range agent.Triggers {
 		var err error
-		agent.TriggersResolved, err = GetTriggers(agent.Triggers)
+		agent.Triggers[i].Trigger, err = GetTrigger(k.TriggerID)
 		if err != nil {
+			logger.Error("Couldn't resolve trigger", k.TriggerID, ":", err)
 			return agent, err
 		}
 	}
