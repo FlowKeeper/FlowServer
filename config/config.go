@@ -1,22 +1,27 @@
 package config
 
 import (
+	"net"
 	"os"
 	"strconv"
+	"strings"
 
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/stringHelper"
 )
 
 type SampleConfig struct {
-	Debug     bool
-	Hostname  string
-	WebListen string
-	WebPort   int
-	MongoDB   string
+	Debug      bool
+	Hostname   string
+	WebListen  string
+	WebPort    int
+	MongoDB    string
+	AllowedIPs []net.IPNet
 }
 
 var Config SampleConfig
+
+const loggingArea = "Config"
 
 func ReadConfig() {
 	var err error
@@ -47,6 +52,24 @@ func ReadConfig() {
 
 	if Config.Debug, err = strconv.ParseBool(os.Getenv("FLOW_DEBUG")); err != nil {
 		Config.Debug = false
+	}
+
+	allowedIPs := os.Getenv("FLOW_ALLOWED_IPS")
+	if stringHelper.IsEmpty(allowedIPs) {
+		logger.Fatal(loggingArea, "FLOW_ALLOWED_IPS is empty! Please add the CIDR you agents will be running in. Example: 192.168.1.0/24")
+	}
+
+	for _, k := range strings.Split(allowedIPs, ",") {
+		_, net, err := net.ParseCIDR(k)
+		if err != nil {
+			logger.Fatal(loggingArea, "The following allowed IP entry was invalid:", k)
+		}
+
+		Config.AllowedIPs = append(Config.AllowedIPs, *net)
+	}
+
+	if len(Config.AllowedIPs) == 0 {
+		logger.Fatal(loggingArea, "FLOW_ALLOWED_IPS was invalid! Please check your syntax. Example: FLOW_ALLOWED_IPS=\"192.168.1.0/24,192.168.2.0/24\"")
 	}
 
 	if Config.Debug {

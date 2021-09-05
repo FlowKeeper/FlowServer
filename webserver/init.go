@@ -19,6 +19,7 @@ func Init() {
 	logger.Info(loggingArea, "Listening on", listenString)
 	router := mux.NewRouter()
 	router.Use(loggingMiddleware)
+	router.Use(authorizationMiddleware)
 
 	router.HandleFunc("/api/v1/register", endpoints.Register).Methods("POST")
 	router.HandleFunc("/api/v1/config", endpoints.Config).Methods("GET")
