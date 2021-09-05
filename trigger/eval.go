@@ -36,6 +36,7 @@ func EvalutateTriggers(Agent models.Agent) {
 		value, err := gval.Evaluate(k.Trigger.Expression, itemFunctions)
 		if err != nil {
 			logger.Error(loggingAreaEVAL, "Couldn't evaluate state of trigger", k.Trigger.Name, ":", err)
+			processTriggerError(Agent, k, err.Error())
 			continue
 		}
 
@@ -44,11 +45,13 @@ func EvalutateTriggers(Agent models.Agent) {
 		expressionMatches, expressionIsBoolean := value.(bool)
 		if !expressionIsBoolean {
 			logger.Error(loggingAreaEVAL, "Expression for trigger", k.Trigger.Name, "does not return true/false! Can't evaluate.")
+			processTriggerError(Agent, k, "Trigger expression doesn't result in boolean")
 			continue
 		}
 
 		if k.Problematic != expressionMatches {
 			if err := db.SetTriggerAssignmentState(Agent.ID, k.TriggerID, expressionMatches); err != nil {
+				processTriggerError(Agent, k, err.Error())
 				continue
 			}
 
@@ -60,5 +63,19 @@ func EvalutateTriggers(Agent models.Agent) {
 				logger.Info(loggingAreaTrigger, "Trigger", k.Trigger.Name, "for agent", Agent.ID.Hex(), "has recovered")
 			}
 		}
+
+		//If we get here, no continues were hit
+		//That means the code ran successfully without any errors
+		if k.HasError() {
+			if err := db.ClearTriggerError(Agent.ID, k.TriggerID); err != nil {
+				logger.Error(loggingAreaTrigger, "Couldn't clear trigger error:", err)
+			}
+		}
+	}
+}
+
+func processTriggerError(Agent models.Agent, Trigger models.TriggerAssignment, Error string) {
+	if !Trigger.HasError() {
+		db.PersistTriggerError(Agent.ID, Trigger.TriggerID, Error)
 	}
 }
