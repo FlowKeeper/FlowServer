@@ -46,7 +46,7 @@ func UpdateLock(Agent models.Agent) error {
 func FindAgent(AgentID uuid.UUID) (models.Agent, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
-	result := dbclient.Collection("agents").FindOne(ctx, bson.M{"agentid": AgentID})
+	result := dbclient.Collection("agents").FindOne(ctx, bson.M{"agentuuid": AgentID})
 
 	if result.Err() != nil {
 		if !errors.Is(result.Err(), mongo.ErrNoDocuments) {

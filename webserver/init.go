@@ -37,7 +37,7 @@ func Init() {
 
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		logger.Info(r.Method, r.RemoteAddr, r.RequestURI)
+		logger.Info(loggingArea, r.Method, r.RemoteAddr, r.RequestURI)
 		next.ServeHTTP(w, r)
 	})
 }

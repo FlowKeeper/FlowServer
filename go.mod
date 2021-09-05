@@ -7,7 +7,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210904070203-2654d8b0c701
-	gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210904163134-c3bd54ee66ee
+	gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210905064708-0274f7a7d3f6
 	go.mongodb.org/mongo-driver v1.7.1
 )
 

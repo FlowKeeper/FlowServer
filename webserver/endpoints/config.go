@@ -15,16 +15,16 @@ import (
 )
 
 func Config(w http.ResponseWriter, r *http.Request) {
-	agentid := r.Header.Get("AgentID")
+	agentid := r.Header.Get("AgentUUID")
 
 	if stringHelper.IsEmpty(agentid) {
-		httpResponse.UserError(w, 400, "AgentID header missing")
+		httpResponse.UserError(w, 400, "AgentUUID header missing")
 		return
 	}
 
 	agentuuid, err := uuid.Parse(agentid)
 	if err != nil {
-		httpResponse.UserError(w, 400, "AgentID is not a valid uuid")
+		httpResponse.UserError(w, 400, "AgentUUID is not a valid uuid")
 		return
 	}
 
@@ -39,23 +39,23 @@ func Config(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	httpResponse.SuccessWithPayload(w, "OK", agent)
-
 	//Only check lock lease if it is currently scheduled on another host than us
 	//If it is scheduled on the current node, just pass it to the scheduler function as we know all our current workloads
 	if agent.Scraper.UUID != db.InstanceConfig.InstanceID {
 		//Check if the agent is currenty scheduled on a working node
 		if time.Since(agent.Scraper.Lock) > time.Minute*3 {
-			logger.Warning("Housekeeper", "A scraper seems to be overloaded or has failed as it hasn't scraped", agent.AgentID, "in 3 minutes -> Rescheduling")
+			logger.Warning("Housekeeper", "A scraper seems to be overloaded or has failed as it hasn't scraped", agent.AgentUUID, "in 3 minutes -> Rescheduling")
 			agent.Scraper.UUID = db.InstanceConfig.InstanceID
 			agent.Scraper.Lock = time.Now()
 			db.UpdateLock(agent)
 		} else {
 			//If lock is valid, don't start a new thread
-			logger.Debug("Scheduler", "Ignored request to start scheduler for agent", agent.AgentID, "as its lock is valid")
+			logger.Debug("Scheduler", "Ignored request to start scheduler for agent", agent.AgentUUID, "as its lock is valid")
 			return
 		}
 	}
+
+	httpResponse.SuccessWithPayload(w, "OK", agent)
 
 	go scheduler.StartScheduler(agent)
 }
