@@ -70,7 +70,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//Find out if we now that agent already
-	existingAgent, err := db.FindAgent(agentUUID)
+	existingAgent, err := db.GetAgentByUUID(agentUUID)
 	if err == nil {
 		httpResponse.Success(w, "OK", "Agent already registered:"+existingAgent.ID.Hex())
 		return

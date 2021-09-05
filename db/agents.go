@@ -43,10 +43,18 @@ func UpdateLock(Agent models.Agent) error {
 	return nil
 }
 
-func FindAgent(AgentID uuid.UUID) (models.Agent, error) {
+func GetAgent(ID primitive.ObjectID) (models.Agent, error) {
+	return getAgentByField("_id", ID)
+}
+
+func GetAgentByUUID(UUID uuid.UUID) (models.Agent, error) {
+	return getAgentByField("agentuuid", UUID)
+}
+
+func getAgentByField(Field string, Value interface{}) (models.Agent, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
-	result := dbclient.Collection("agents").FindOne(ctx, bson.M{"agentuuid": AgentID})
+	result := dbclient.Collection("agents").FindOne(ctx, bson.M{Field: Value})
 
 	if result.Err() != nil {
 		if !errors.Is(result.Err(), mongo.ErrNoDocuments) {
@@ -69,6 +77,12 @@ func FindAgent(AgentID uuid.UUID) (models.Agent, error) {
 	if agent.ItemsResolved == nil {
 		agent.ItemsResolved = make([]models.Item, 0)
 	}
+	if agent.Triggers == nil {
+		agent.Triggers = make([]primitive.ObjectID, 0)
+	}
+	if agent.TriggersResolved == nil {
+		agent.TriggersResolved = make([]models.Trigger, 0)
+	}
 
 	if len(agent.Items) > 0 {
 		var err error
@@ -77,5 +91,14 @@ func FindAgent(AgentID uuid.UUID) (models.Agent, error) {
 			return agent, err
 		}
 	}
+
+	if len(agent.Triggers) > 0 {
+		var err error
+		agent.TriggersResolved, err = GetTriggers(agent.Triggers)
+		if err != nil {
+			return agent, err
+		}
+	}
+
 	return agent, nil
 }

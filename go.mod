@@ -7,11 +7,12 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210904070203-2654d8b0c701
-	gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210905064708-0274f7a7d3f6
+	gitlab.cloud.spuda.net/flowkeeper/flowutils/v2 v2.0.0-20210905140625-8f50f17cfe4e
 	go.mongodb.org/mongo-driver v1.7.1
 )
 
 require (
+	github.com/PaesslerAG/gval v1.1.1 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.9.5 // indirect

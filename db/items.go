@@ -22,14 +22,8 @@ func GetItems(IDs []primitive.ObjectID) ([]models.Item, error) {
 		return items, err
 	}
 
-	for result.Next(ctx) {
-		var singleItem models.Item
-		if err := result.Decode(&singleItem); err != nil {
-			logger.Error(loggingArea, "Couldn't decode item:", err)
-			return items, err
-		}
-
-		items = append(items, singleItem)
+	if err := result.All(ctx, &items); err != nil {
+		logger.Error(loggingArea, "Couldn't decode item array:", err)
 	}
 
 	return items, nil

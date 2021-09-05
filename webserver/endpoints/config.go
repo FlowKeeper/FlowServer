@@ -28,7 +28,7 @@ func Config(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	agent, err := db.FindAgent(agentuuid)
+	agent, err := db.GetAgentByUUID(agentuuid)
 
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
