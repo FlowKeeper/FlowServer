@@ -10,6 +10,7 @@ import (
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/db"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/trigger"
+	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/dbtemplate"
 	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/models"
 )
 
@@ -29,9 +30,9 @@ func schedulerThread(Agent models.Agent) {
 	logger.Info(loggingArea, "Starting scheduler for agent", Agent.AgentUUID)
 
 	for {
-		time.Sleep(time.Second * 10)
+		time.Sleep(time.Second * 60)
 		//Refresh agent
-		Agent, err := db.GetAgentByUUID(Agent.AgentUUID)
+		Agent, err := dbtemplate.GetAgentByUUID(db.Client(), Agent.AgentUUID)
 		if err != nil {
 			logger.Error(loggingArea, "Couldn't refresh agent configuration:", err)
 			continue

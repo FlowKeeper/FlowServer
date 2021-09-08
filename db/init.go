@@ -53,3 +53,7 @@ func Disconnect() {
 	defer cancel()
 	rawclient.Disconnect(ctx)
 }
+
+func Client() *mongo.Database {
+	return dbclient
+}

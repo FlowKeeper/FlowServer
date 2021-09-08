@@ -11,6 +11,7 @@ import (
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/stringHelper"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/db"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/scheduler"
+	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/dbtemplate"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -28,7 +29,7 @@ func Config(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	agent, err := db.GetAgentByUUID(agentuuid)
+	agent, err := dbtemplate.GetAgentByUUID(db.Client(), agentuuid)
 
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {

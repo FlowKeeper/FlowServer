@@ -14,6 +14,7 @@ import (
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/httpResponse"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/stringHelper"
 	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/db"
+	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/dbtemplate"
 	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/models"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -70,7 +71,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//Find out if we now that agent already
-	existingAgent, err := db.GetAgentByUUID(agentUUID)
+	existingAgent, err := dbtemplate.GetAgentByUUID(db.Client(), agentUUID)
 	if err == nil {
 		httpResponse.Success(w, "OK", "Agent already registered:"+existingAgent.ID.Hex())
 		return
