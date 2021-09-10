@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
+	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -22,6 +23,23 @@ func SetTriggerAssignmentState(AgentID primitive.ObjectID, TriggerID primitive.O
 
 	if result.Err() != nil {
 		logger.Error(loggingArea, "Couldn't update triggerassignment state:", result.Err())
+		return result.Err()
+	}
+
+	historyEvent := []models.TriggerHistoryEntry{
+		{
+			Time:        time.Now(),
+			Problematic: Problematic,
+		},
+	}
+
+	result = dbclient.Collection("agents").FindOneAndUpdate(ctx, bson.M{"_id": AgentID}, bson.M{"$push": bson.M{"triggers.$[elem].history": bson.M{"$each": historyEvent, "$position": 0}}},
+		options.FindOneAndUpdate().SetArrayFilters(options.ArrayFilters{
+			Filters: []interface{}{bson.M{"elem.triggerid": TriggerID}},
+		}))
+
+	if result.Err() != nil {
+		logger.Error(loggingArea, "Couldn't add history event for trigger:", result.Err())
 	}
 
 	return result.Err()

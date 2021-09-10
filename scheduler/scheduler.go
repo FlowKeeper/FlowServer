@@ -30,9 +30,17 @@ func schedulerThread(Agent models.Agent) {
 	logger.Info(loggingArea, "Starting scheduler for agent", Agent.AgentUUID)
 
 	for {
-		time.Sleep(time.Second * 60)
+		var err error
+
+		if Agent.ScrapeInterval <= 0 {
+			logger.Debug(loggingArea, "Agent doesn't have a scrape interval set / its invalid. Using standart = 60 seconds")
+			Agent.ScrapeInterval = 60
+		} else {
+			logger.Debug(loggingArea, "Using custom scrape interval for agent", Agent.Name, ":", Agent.ScrapeInterval)
+		}
+		time.Sleep(time.Second * time.Duration(Agent.ScrapeInterval))
 		//Refresh agent
-		Agent, err := dbtemplate.GetAgentByUUID(db.Client(), Agent.AgentUUID)
+		Agent, err = dbtemplate.GetAgentByUUID(db.Client(), Agent.AgentUUID)
 		if err != nil {
 			logger.Error(loggingArea, "Couldn't refresh agent configuration:", err)
 			continue
