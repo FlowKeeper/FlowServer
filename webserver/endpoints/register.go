@@ -25,6 +25,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		AgentUUID string
 		AgentOS   string
 		AgentPort string
+		AgentName string
 	}
 
 	if httphelper.HasEmptyBody(w, r) {
@@ -48,6 +49,11 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	if stringHelper.IsEmpty(request.AgentPort) {
 		httpResponse.UserError(w, 400, "AgentPort missing")
+		return
+	}
+
+	if stringHelper.IsEmpty(request.AgentName) {
+		httpResponse.UserError(w, 400, "AgentName missing")
 		return
 	}
 
@@ -91,6 +97,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	//Register the new agent
 	newAgent := models.Agent{
+		Name:      request.AgentName,
 		AgentUUID: agentUUID,
 		OS:        agentOS,
 		Enabled:   true,
