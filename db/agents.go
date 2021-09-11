@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+//AddAgent persists the specified agent in the database
 func AddAgent(Agent *models.Agent) error {
 	if Agent.TemplateIDs == nil {
 		Agent.TemplateIDs = make([]primitive.ObjectID, 0)
@@ -30,6 +31,7 @@ func AddAgent(Agent *models.Agent) error {
 	return nil
 }
 
+//UpdateLock refreshes the lock for the specified agent
 func UpdateLock(Agent models.Agent) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()

@@ -16,6 +16,8 @@ import (
 
 const loggingArea = "Scheduler"
 
+//StartScheduler starts a scheduler for the specified agent
+//If a scheduler is already running for that agent, the request is ignored
 func StartScheduler(Agent models.Agent) {
 	if _, found := workloads[Agent.ID]; found {
 		logger.Debug(loggingArea, "Ignored request to start scheduler as its already in our current workload set")

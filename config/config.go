@@ -10,7 +10,8 @@ import (
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/stringHelper"
 )
 
-type SampleConfig struct {
+//Config stores the current configuration of the agent
+var Config struct {
 	Debug      bool
 	Hostname   string
 	WebListen  string
@@ -19,10 +20,9 @@ type SampleConfig struct {
 	AllowedIPs []net.IPNet
 }
 
-var Config SampleConfig
-
 const loggingArea = "Config"
 
+//ReadConfig initializes the config struct from the config file or the environment variables
 func ReadConfig() {
 	var err error
 

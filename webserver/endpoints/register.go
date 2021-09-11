@@ -19,6 +19,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+//Register gets called by agents before fetching their config to ensure the agentUUID is present in the database
 func Register(w http.ResponseWriter, r *http.Request) {
 	//Unfortunately we cannot use the right types directly as that results in empty uuid's if they arent specified in the request
 	var request struct {

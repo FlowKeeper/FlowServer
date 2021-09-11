@@ -4,7 +4,7 @@ COPY . /src
 WORKDIR /src
 RUN CGO_ENABLED=0 go build -o /src/server .
 
-FROM alpine:latest
+FROM alpine:3
 RUN mkdir /app
 COPY --from=build /src/server /app/server
 

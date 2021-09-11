@@ -11,8 +11,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+//AddResults presists the specified results in the database
 func AddResults(Results []models.Result) error {
-	var interfaceSlice []interface{} = make([]interface{}, len(Results))
+	interfaceSlice := make([]interface{}, len(Results))
 	for i, d := range Results {
 		interfaceSlice[i] = d
 	}
@@ -34,6 +35,7 @@ func GetResults(AgentID primitive.ObjectID, ItemID primitive.ObjectID) (models.R
 	return GetResultsWithLimit(AgentID, ItemID, 0)
 }
 
+//GetResultsWithLimit returns the newest n-results
 func GetResultsWithLimit(AgentID primitive.ObjectID, ItemID primitive.ObjectID, Limit int64) (models.ResultSet, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()

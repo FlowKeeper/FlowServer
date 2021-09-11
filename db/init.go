@@ -17,13 +17,13 @@ var dbclient *mongo.Database
 
 const loggingArea = "DB"
 
-type InstanceConfigSample struct {
+//InstanceConfig gets loaded from the database upon calling Connect()
+var InstanceConfig struct {
 	Hostname   string
 	InstanceID uuid.UUID
 }
 
-var InstanceConfig InstanceConfigSample
-
+//Connect connects to the mongodb and initializes the client
 func Connect() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
@@ -48,12 +48,14 @@ func Connect() error {
 	return nil
 }
 
+//Disconnect closes the connection to mongodb
 func Disconnect() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	rawclient.Disconnect(ctx)
 }
 
+//Client returns the current mongodb client with a preselected database
 func Client() *mongo.Database {
 	return dbclient
 }

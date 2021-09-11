@@ -15,6 +15,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+//Config gets called by agents and returns the current agent struct (their config)
+//Calling this function will also start a scheduler for the agent, if the lock on the agent expired
 func Config(w http.ResponseWriter, r *http.Request) {
 	agentid := r.Header.Get("AgentUUID")
 

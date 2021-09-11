@@ -10,6 +10,7 @@ import (
 const loggingAreaEVAL = "Eval"
 const loggingAreaTrigger = "Trigger"
 
+//EvaluateTriggers updates all triggers to represent their respective current state
 func EvalutateTriggers(Agent models.Agent) {
 	logger.Debug(loggingAreaTrigger, "Evaluating triggers for agent", Agent.ID.Hex())
 	if len(Agent.GetAllTriggers()) == 0 {

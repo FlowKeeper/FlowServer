@@ -11,6 +11,7 @@ import (
 //workloads stores all hosts managed by this server
 var workloads map[primitive.ObjectID]models.Agent
 
+//Init initializes all needed variables for the scheduler to work
 func Init() {
 	workloads = make(map[primitive.ObjectID]models.Agent)
 	go debugThread()

@@ -38,7 +38,10 @@ func createScraper() {
 
 	hostname, _ := os.Hostname()
 
-	InstanceConfig = InstanceConfigSample{
+	InstanceConfig = struct {
+		Hostname   string
+		InstanceID uuid.UUID
+	}{
 		Hostname:   hostname,
 		InstanceID: uuid.New(),
 	}

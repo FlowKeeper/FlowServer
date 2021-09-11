@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+//SetTriggerAssignmentState sets the specified trigger assignment to problematic or unproblematic
 func SetTriggerAssignmentState(AgentID primitive.ObjectID, TriggerID primitive.ObjectID, Problematic bool) error {
 	logger.Debug(loggingArea, "Trying to set problematic to", Problematic, "for TA", TriggerID)
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -45,6 +46,7 @@ func SetTriggerAssignmentState(AgentID primitive.ObjectID, TriggerID primitive.O
 	return result.Err()
 }
 
+//PersistTriggerError sets the Error string for the trigger assignment
 func PersistTriggerError(AgentID primitive.ObjectID, TriggerID primitive.ObjectID, Error string) error {
 	logger.Debug(loggingArea, "Trying to set error for trigger", TriggerID, "on agent", AgentID)
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -62,6 +64,7 @@ func PersistTriggerError(AgentID primitive.ObjectID, TriggerID primitive.ObjectI
 	return result.Err()
 }
 
+//ClearTriggerError calls PersistTriggerError with not error string
 func ClearTriggerError(AgentID primitive.ObjectID, TriggerID primitive.ObjectID) error {
 	return PersistTriggerError(AgentID, TriggerID, "")
 }
