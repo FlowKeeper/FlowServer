@@ -16,7 +16,7 @@ func SetTriggerAssignmentState(AgentID primitive.ObjectID, TriggerID primitive.O
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	result := dbclient.Collection("agents").FindOneAndUpdate(ctx, bson.M{"_id": AgentID}, bson.M{"$set": bson.M{"triggers.$[elem].problematic": Problematic}},
+	result := dbclient.Collection("agents").FindOneAndUpdate(ctx, bson.M{"_id": AgentID}, bson.M{"$set": bson.M{"triggermappings.$[elem].problematic": Problematic}},
 		options.FindOneAndUpdate().SetArrayFilters(options.ArrayFilters{
 			Filters: []interface{}{bson.M{"elem.triggerid": TriggerID}},
 		}))
@@ -33,7 +33,7 @@ func SetTriggerAssignmentState(AgentID primitive.ObjectID, TriggerID primitive.O
 		},
 	}
 
-	result = dbclient.Collection("agents").FindOneAndUpdate(ctx, bson.M{"_id": AgentID}, bson.M{"$push": bson.M{"triggers.$[elem].history": bson.M{"$each": historyEvent, "$position": 0}}},
+	result = dbclient.Collection("agents").FindOneAndUpdate(ctx, bson.M{"_id": AgentID}, bson.M{"$push": bson.M{"triggermappings.$[elem].history": bson.M{"$each": historyEvent, "$position": 0}}},
 		options.FindOneAndUpdate().SetArrayFilters(options.ArrayFilters{
 			Filters: []interface{}{bson.M{"elem.triggerid": TriggerID}},
 		}))
@@ -50,7 +50,7 @@ func PersistTriggerError(AgentID primitive.ObjectID, TriggerID primitive.ObjectI
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	result := dbclient.Collection("agents").FindOneAndUpdate(ctx, bson.M{"_id": AgentID}, bson.M{"$set": bson.M{"triggers.$[elem].error": Error}},
+	result := dbclient.Collection("agents").FindOneAndUpdate(ctx, bson.M{"_id": AgentID}, bson.M{"$set": bson.M{"triggermappings.$[elem].error": Error}},
 		options.FindOneAndUpdate().SetArrayFilters(options.ArrayFilters{
 			Filters: []interface{}{bson.M{"elem.triggerid": TriggerID}},
 		}))

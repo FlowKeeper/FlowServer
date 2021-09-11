@@ -11,6 +11,13 @@ import (
 )
 
 func AddAgent(Agent *models.Agent) error {
+	if Agent.TemplateIDs == nil {
+		Agent.TemplateIDs = make([]primitive.ObjectID, 0)
+	}
+	if Agent.TriggerMappings == nil {
+		Agent.TriggerMappings = make([]models.TriggerAssignment, 0)
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	result, err := dbclient.Collection("agents").InsertOne(ctx, Agent)
