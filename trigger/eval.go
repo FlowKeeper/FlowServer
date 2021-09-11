@@ -12,13 +12,13 @@ const loggingAreaTrigger = "Trigger"
 
 func EvalutateTriggers(Agent models.Agent) {
 	logger.Debug(loggingAreaTrigger, "Evaluating triggers for agent", Agent.ID.Hex())
-	if len(Agent.Triggers) == 0 {
+	if len(Agent.GetAllTriggers()) == 0 {
 		logger.Debug(loggingAreaTrigger, "Agent", Agent.ID.Hex(), "has no triggers assigned to it")
 		return
 	}
 
 	itemFunctions := make(map[string]interface{})
-	for _, k := range Agent.ItemsResolved {
+	for _, k := range Agent.GetAllItems() {
 		results, err := db.GetResults(Agent.ID, k.ID)
 		if err != nil {
 			continue
@@ -27,55 +27,61 @@ func EvalutateTriggers(Agent models.Agent) {
 		itemFunctions[k.Name] = results
 	}
 
-	for _, k := range Agent.Triggers {
-		if !k.Enabled || !k.Trigger.Enabled {
+	for _, k := range Agent.GetAllTriggers() {
+		if !k.Enabled {
+			continue
+		}
+
+		tm, err := Agent.GetTriggerMappingByTriggerID(k.ID)
+		if err != nil {
+			logger.Error(loggingAreaTrigger, "Trigger seems to be incosistent. Couldn't find TriggerMapping for trigger:", k.ID)
 			continue
 		}
 
 		//ToDo: Dependencies
-		value, err := gval.Evaluate(k.Trigger.Expression, itemFunctions)
+		value, err := gval.Evaluate(k.Expression, itemFunctions)
 		if err != nil {
-			logger.Error(loggingAreaEVAL, "Couldn't evaluate state of trigger", k.Trigger.Name, ":", err)
-			processTriggerError(Agent, k, err.Error())
+			logger.Error(loggingAreaEVAL, "Couldn't evaluate state of trigger", k.Name, ":", err)
+			processTriggerError(Agent, tm, err.Error())
 			continue
 		}
 
-		logger.Debug(loggingAreaEVAL, "Evaluation of trigger", k.Trigger.Name, "for agent", Agent.ID.Hex(), "returned:", value)
+		logger.Debug(loggingAreaEVAL, "Evaluation of trigger", k.Name, "for agent", Agent.ID.Hex(), "returned:", value)
 
 		expressionMatches, expressionIsBoolean := value.(bool)
 		if !expressionIsBoolean {
-			logger.Error(loggingAreaEVAL, "Expression for trigger", k.Trigger.Name, "does not return true/false! Can't evaluate.")
-			processTriggerError(Agent, k, "Trigger expression doesn't result in boolean")
+			logger.Error(loggingAreaEVAL, "Expression for trigger", k.Name, "does not return true/false! Can't evaluate.")
+			processTriggerError(Agent, tm, "Trigger expression doesn't result in boolean")
 			continue
 		}
 
-		if k.Problematic != expressionMatches {
-			if err := db.SetTriggerAssignmentState(Agent.ID, k.TriggerID, expressionMatches); err != nil {
-				processTriggerError(Agent, k, err.Error())
+		if tm.Problematic != expressionMatches {
+			if err := db.SetTriggerAssignmentState(Agent.ID, k.ID, expressionMatches); err != nil {
+				processTriggerError(Agent, tm, err.Error())
 				continue
 			}
 
 			if expressionMatches {
 				//ToDo: Handle trigger going problematic
-				logger.Info(loggingAreaTrigger, "Trigger", k.Trigger.Name, "for agent", Agent.ID.Hex(), "is now active")
+				logger.Info(loggingAreaTrigger, "Trigger", k.Name, "for agent", Agent.ID.Hex(), "is now active")
 			} else {
 				//ToDo: Handle trigger going ok
-				logger.Info(loggingAreaTrigger, "Trigger", k.Trigger.Name, "for agent", Agent.ID.Hex(), "has recovered")
+				logger.Info(loggingAreaTrigger, "Trigger", k.Name, "for agent", Agent.ID.Hex(), "has recovered")
 			}
 		}
 
 		//If we get here, no continues were hit
 		//That means the code ran successfully without any errors
-		if k.HasError() {
-			if err := db.ClearTriggerError(Agent.ID, k.TriggerID); err != nil {
+		if tm.HasError() {
+			if err := db.ClearTriggerError(Agent.ID, k.ID); err != nil {
 				logger.Error(loggingAreaTrigger, "Couldn't clear trigger error:", err)
 			}
 		}
 	}
 }
 
-func processTriggerError(Agent models.Agent, Trigger models.TriggerAssignment, Error string) {
-	if !Trigger.HasError() {
-		db.PersistTriggerError(Agent.ID, Trigger.TriggerID, Error)
+func processTriggerError(Agent models.Agent, TriggerAssignment models.TriggerAssignment, Error string) {
+	if !TriggerAssignment.HasError() {
+		db.PersistTriggerError(Agent.ID, TriggerAssignment.TriggerID, Error)
 	}
 }
