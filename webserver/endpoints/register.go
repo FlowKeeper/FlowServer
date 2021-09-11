@@ -103,7 +103,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		OS:        agentOS,
 		Enabled:   true,
 		LastSeen:  time.Now(),
-		Endpoint:  agentURL,
+		Endpoint:  agentURL.Host,
 	}
 
 	if err := db.AddAgent(&newAgent); err != nil {

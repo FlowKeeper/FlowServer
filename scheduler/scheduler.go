@@ -67,7 +67,7 @@ func schedulerThread(Agent models.Agent) {
 			continue
 		}
 
-		req, err := http.NewRequest("GET", fmt.Sprintf("%s://%s/api/v1/retrieve", Agent.Endpoint.Scheme, Agent.Endpoint.Host), nil)
+		req, err := http.NewRequest("GET", fmt.Sprintf("http://%s/api/v1/retrieve", Agent.Endpoint), nil)
 		if err != nil {
 			logger.Error(loggingArea, "Couldn't construct URL for agent", Agent.AgentUUID, ":", err, "-> Thread will exit")
 			break
