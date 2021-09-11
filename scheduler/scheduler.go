@@ -109,7 +109,7 @@ func schedulerThread(Agent models.Agent) {
 			}
 		}
 
-		trigger.EvalutateTriggers(Agent)
+		trigger.EvaluateTriggers(Agent)
 	}
 
 	delete(workloads, Agent.ID)
