@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/FlowKeeper/FlowServer/v2/db"
+	"github.com/FlowKeeper/FlowServer/v2/trigger"
+	"github.com/FlowKeeper/FlowUtils/v2/dbtemplate"
+	"github.com/FlowKeeper/FlowUtils/v2/models"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
-	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/db"
-	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/trigger"
-	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/dbtemplate"
-	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/models"
 )
 
 const loggingArea = "Scheduler"

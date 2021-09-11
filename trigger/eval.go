@@ -1,10 +1,10 @@
 package trigger
 
 import (
+	"github.com/FlowKeeper/FlowServer/v2/db"
+	"github.com/FlowKeeper/FlowUtils/v2/models"
 	"github.com/PaesslerAG/gval"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
-	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/db"
-	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/models"
 )
 
 const loggingAreaEVAL = "Eval"

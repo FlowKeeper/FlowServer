@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/FlowKeeper/FlowServer/v2/config"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/httpResponse"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
-	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/config"
 )
 
 //authorizationMiddleware should check the "ScraperUUID" header and determine if the client is allowed to send http requests to this agent

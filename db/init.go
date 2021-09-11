@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
+	"github.com/FlowKeeper/FlowServer/v2/config"
 	"github.com/google/uuid"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
-	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"

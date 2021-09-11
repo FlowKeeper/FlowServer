@@ -5,13 +5,13 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/FlowKeeper/FlowServer/v2/db"
+	"github.com/FlowKeeper/FlowServer/v2/scheduler"
+	"github.com/FlowKeeper/FlowUtils/v2/dbtemplate"
 	"github.com/google/uuid"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/httpResponse"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/logger"
 	"gitlab.cloud.spuda.net/Wieneo/golangutils/v2/stringHelper"
-	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/db"
-	"gitlab.cloud.spuda.net/flowkeeper/flowserver/v2/scheduler"
-	"gitlab.cloud.spuda.net/flowkeeper/flowutils/v2/dbtemplate"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
