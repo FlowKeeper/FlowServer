@@ -7,7 +7,6 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210904070203-2654d8b0c701
-	github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210911082017-a077151195c2
 	go.mongodb.org/mongo-driver v1.7.2
 )
 
@@ -25,3 +24,5 @@ require (
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/text v0.3.7 // indirect
 )
+
+require github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210911131436-92d4bc520c0a // indirect
