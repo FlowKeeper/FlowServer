@@ -98,6 +98,8 @@ github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a h1:fZHgsYlfvtyqTosly
 github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a/go.mod h1:ul22v+Nro/R083muKhosV54bj5niojjWZvU8xrevuH4=
 gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210904070203-2654d8b0c701 h1:0N3dRypFpPzgYBMr+d3rt3gOP6D9YOXrPfru9vIDnZs=
 gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210904070203-2654d8b0c701/go.mod h1:HUJtDi/BJKPLOHPuR+kNewDIUc+FUGr3Tt3wtSn7hBU=
+gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210912064442-dc511fe9c28b h1:0XgxeP4M92smuWFGWwaBu3lPyZEE1NubnT4xfOPQnfM=
+gitlab.cloud.spuda.net/Wieneo/golangutils/v2 v2.0.0-20210912064442-dc511fe9c28b/go.mod h1:HUJtDi/BJKPLOHPuR+kNewDIUc+FUGr3Tt3wtSn7hBU=
 go.mongodb.org/mongo-driver v1.7.1 h1:jwqTeEM3x6L9xDXrCxN0Hbg7vdGfPBOTIkr0+/LYZDA=
 go.mongodb.org/mongo-driver v1.7.1/go.mod h1:Q4oFMbo1+MSNqICAdYMlC/zSTrwCogR4R8NzkI+yfU8=
 go.mongodb.org/mongo-driver v1.7.2 h1:pFttQyIiJUHEn50YfZgC9ECjITMT44oiN36uArf/OFg=
