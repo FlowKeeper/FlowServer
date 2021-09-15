@@ -3,6 +3,8 @@ github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210911131436-92d4bc520c0a h1:q0rOSUx
 github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210911131436-92d4bc520c0a/go.mod h1:JnqnfIlzQ0P5DEHlNbKoPar58eI5NnifsZEdBpmhB/w=
 github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210911185616-289b6e6b3efd h1:X9SkSHOSuPFZsf1T30WBG4xjCcwgbrecj4fJ60QutzY=
 github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210911185616-289b6e6b3efd/go.mod h1:JnqnfIlzQ0P5DEHlNbKoPar58eI5NnifsZEdBpmhB/w=
+github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210915045553-378922d85d06 h1:tebmigUPNwt7WlcqCrFGSKuNOKmeyrMFd2d5pNpvHQM=
+github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210915045553-378922d85d06/go.mod h1:JnqnfIlzQ0P5DEHlNbKoPar58eI5NnifsZEdBpmhB/w=
 github.com/PaesslerAG/gval v1.1.1 h1:4d7pprU9876+m3rc08X33UjGip8oV1kkm8Gh5GBuTss=
 github.com/PaesslerAG/gval v1.1.1/go.mod h1:Fa8gfkCmUsELXgayr8sfL/sw+VzCVoa03dcOcR/if2w=
 github.com/PaesslerAG/jsonpath v0.1.0/go.mod h1:4BzmtoM/PI8fPO4aQGIusjGxGir2BzcV0grWtFzq1Y8=

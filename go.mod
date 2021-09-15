@@ -25,4 +25,4 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 )
 
-require github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210911185616-289b6e6b3efd // indirect
+require github.com/FlowKeeper/FlowUtils/v2 v2.0.0-20210915045553-378922d85d06 // indirect

@@ -48,9 +48,14 @@ func schedulerThread(Agent models.Agent) {
 			continue
 		}
 
+		if Agent.Deleted {
+			logger.Info(loggingArea, "Agent", Agent.AgentUUID, "got deleted -> Scheduler exiting")
+			break
+		}
+
 		//Check if agent is still in our current workload set
 		if _, found := workloads[Agent.ID]; !found {
-			logger.Info(loggingArea, "Agent", Agent.AgentUUID, "is not our workload anymore -> Thread exiting")
+			logger.Info(loggingArea, "Agent", Agent.AgentUUID, "is not our workload anymore -> Scheduler exiting")
 			break
 		}
 

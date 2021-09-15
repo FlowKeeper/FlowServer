@@ -32,13 +32,17 @@ func Config(w http.ResponseWriter, r *http.Request) {
 	}
 
 	agent, err := dbtemplate.GetAgentByUUID(db.Client(), agentuuid)
-
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			httpResponse.UserError(w, 404, "Specified agent isn't recognized")
 		} else {
 			httpResponse.InternalError(w, r, err)
 		}
+		return
+	}
+
+	if agent.Deleted {
+		httpResponse.UserError(w, 401, "Agent is marked as deleted")
 		return
 	}
 
